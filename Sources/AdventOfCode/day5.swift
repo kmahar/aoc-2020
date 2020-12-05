@@ -26,7 +26,6 @@ struct Seat {
 func day5() throws {
     let lines = try readLines(forDay: 5)
 
-    // (row, column) seats
     var seats = [Seat]()
 
     for line in lines {
