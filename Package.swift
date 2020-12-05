@@ -4,6 +4,6 @@ import PackageDescription
 let package = Package(
     name: "aoc-2020",
     targets: [
-        .target(name: "AdventOfCode", dependencies: [])
+        .target(name: "AdventOfCode", dependencies: []),
     ]
 )

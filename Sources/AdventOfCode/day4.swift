@@ -1,5 +1,4 @@
 let expectedFields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
-let hairColorCharacters = "0123456789abcdef"
 let eyeColors = Set(["amb", "blu", "brn", "gry", "grn", "hzl", "oth"])
 
 func day4() throws {
