@@ -24,22 +24,30 @@ func day9() throws {
 
     print("Part 1: \(part1!)")
 
-    // this is a (close to) brute force solution trying out every subsequence of length 2+.
-    for i in 0 ..< inputs.count - 1 {
-        for j in (i + 1) ..< inputs.count {
-            let subrange = inputs[i ... j]
-            let sum = subrange.reduce(0, +)
-            // [i...j] already exceeds the target value. since all values are positive,
-            // any sequence starting at i and ending after j will also be too large.
-            if sum > part1 {
-                break
-            }
-            if sum == part1 {
-                let part2Min = subrange.min()!
-                let part2Max = subrange.max()!
-                print("Part 2: \(part2Min + part2Max)")
+    // it would be nice to use an (Int, Int) here but that type is not hashable
+    var sums = [[Int]: Int]()
+
+    for i in 0..<inputs.count - 1 {
+        for j in i..<inputs.count {
+            let sum = i == j ? inputs[i] : sums[[i, j-1]]! + inputs[j]
+
+            // we found an answer
+            if i != j && sum == part1 {
+                let range = inputs[i...j]
+                let min = range.min()!
+                let max = range.max()!
+                print("Part 2: \(min + max)")
                 return
             }
+
+            // [i...j] already exceeds the target value. since all values are positive,
+            // any sequence starting at i and ending after j will also be too large,
+            // so no point in continuing to fill out this data.
+            else if sum > part1 {
+                break
+            }
+
+            sums[[i, j]] = sum
         }
     }
 }
