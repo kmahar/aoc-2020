@@ -9,7 +9,7 @@ enum State: Character {
 ///   - rows: The input data
 ///   - switchToEmptyThreshold: the threshold of surrounding seats being occupied at which at seat will
 ///                             switch to being empty on the next iteration
-///   - getConsideredCells: a function, which given (x, y, currentState) returns a list of the seats which
+///   - getConsideredSeats: a function, which given (x, y, currentState) returns a list of the seats which
 //                          will be factored in when next determining the state of the seat at (x, y)
 /// - Returns: a count of the occupied seats in the equilibrium state.
 func runUntilEquilibrium(
@@ -57,7 +57,7 @@ func runUntilEquilibrium(
     return current.reduce([], +).filter { $0 == .occupied }.count
 }
 
-let borderingCells = [
+let borderingSeats = [
     (-1, -1),
     (-1, 0),
     (-1, 1),
@@ -74,7 +74,7 @@ func day11() throws {
     let yMax = rows.count
 
     let part1Result = runUntilEquilibrium(rows, switchToEmptyThreshold: 4) { x, y, _ in
-        borderingCells.map { i, j in
+        borderingSeats.map { i, j in
             (x + i, y + j)
         }.filter { i, j in
             (0 ..< xMax).contains(i) && (0 ..< yMax).contains(j)
@@ -84,55 +84,55 @@ func day11() throws {
     print("Part 1: \(part1Result)")
 
     let part2Result = runUntilEquilibrium(rows, switchToEmptyThreshold: 5) { x, y, current in
-        var cells = [(Int, Int)]()
+        var seats = [(Int, Int)]()
 
         // find first seat above
         if let firstAbove = stride(from: y - 1, through: 0, by: -1).first(where: { current[$0][x] != .floor }) {
-            cells.append((x, firstAbove))
+            seats.append((x, firstAbove))
         }
 
         // find first seat below
         if let firstBelow = stride(from: y + 1, to: yMax, by: 1).first(where: { current[$0][x] != .floor }) {
-            cells.append((x, firstBelow))
+            seats.append((x, firstBelow))
         }
 
         if let firstLeft = stride(from: x - 1, through: 0, by: -1).first(where: { current[y][$0] != .floor }) {
-            cells.append((firstLeft, y))
+            seats.append((firstLeft, y))
         }
 
         if let firstRight = stride(from: x + 1, to: xMax, by: 1).first(where: { current[y][$0] != .floor }) {
-            cells.append((firstRight, y))
+            seats.append((firstRight, y))
         }
 
         // find first seat up and left
         if let firstUpLeft = zip(stride(from: x - 1, through: 0, by: -1), stride(from: y - 1, through: 0, by: -1))
             .first(where: { current[$1][$0] != .floor })
         {
-            cells.append(firstUpLeft)
+            seats.append(firstUpLeft)
         }
 
         // find first seat down and left
         if let firstDownLeft = zip(stride(from: x - 1, through: 0, by: -1), stride(from: y + 1, to: yMax, by: 1))
             .first(where: { current[$1][$0] != .floor })
         {
-            cells.append(firstDownLeft)
+            seats.append(firstDownLeft)
         }
 
         // find first seat up and right
         if let firstUpRight = zip(stride(from: x + 1, to: xMax, by: 1), stride(from: y - 1, through: 0, by: -1))
             .first(where: { current[$1][$0] != .floor })
         {
-            cells.append(firstUpRight)
+            seats.append(firstUpRight)
         }
 
         // find first down up and right
         if let firstDownRight = zip(stride(from: x + 1, to: xMax, by: 1), stride(from: y + 1, to: yMax, by: 1))
             .first(where: { current[$1][$0] != .floor })
         {
-            cells.append(firstDownRight)
+            seats.append(firstDownRight)
         }
 
-        return cells
+        return seats
     }
 
     print("Part 2: \(part2Result)")
