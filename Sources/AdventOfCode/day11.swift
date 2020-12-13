@@ -125,7 +125,7 @@ func day11() throws {
             seats.append(firstUpRight)
         }
 
-        // find first down up and right
+        // find first seat down and right
         if let firstDownRight = zip(stride(from: x + 1, to: xMax, by: 1), stride(from: y + 1, to: yMax, by: 1))
             .first(where: { current[$1][$0] != .floor })
         {
