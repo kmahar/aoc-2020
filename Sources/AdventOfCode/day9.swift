@@ -27,13 +27,13 @@ func day9() throws {
     // it would be nice to use an (Int, Int) here but that type is not hashable
     var sums = [[Int]: Int]()
 
-    for i in 0..<inputs.count - 1 {
-        for j in i..<inputs.count {
-            let sum = i == j ? inputs[i] : sums[[i, j-1]]! + inputs[j]
+    for i in 0 ..< inputs.count - 1 {
+        for j in i ..< inputs.count {
+            let sum = i == j ? inputs[i] : sums[[i, j - 1]]! + inputs[j]
 
             // we found an answer
-            if i != j && sum == part1 {
-                let range = inputs[i...j]
+            if i != j, sum == part1 {
+                let range = inputs[i ... j]
                 let min = range.min()!
                 let max = range.max()!
                 print("Part 2: \(min + max)")
