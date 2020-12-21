@@ -2,7 +2,7 @@ func run(startSequence: [Int], iterations: Int) -> Int {
     // map of numbers said to the last 1 or 2 turns they were spoken on.
     var seenNumbers = [Int: [Int]]()
     for (i, num) in startSequence.enumerated() {
-        seenNumbers[num] = (seenNumbers[num, default: []] + [i]).suffix(2)
+        seenNumbers[num] = [i]
     }
 
     var lastNumber = startSequence.last!
