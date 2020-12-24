@@ -1,1 +1,1 @@
-try day19()
+try day20()
